@@ -1,0 +1,19 @@
+<configuration>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%-40(%d{ISO8601,UTC} [%thread]) %highlight(%-5level) %logger{36} [%mdc]:: %msg %n
+			</Pattern>
+		</layout>
+	</appender>
+
+	<logger name="com.sap" level="INFO" additivity="false">
+		<appender-ref ref="CONSOLE"/>
+	</logger>
+
+	<root level="info">
+		<appender-ref ref="CONSOLE"/>
+	</root>
+
+</configuration>
