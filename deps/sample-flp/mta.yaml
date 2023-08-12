@@ -1,0 +1,32 @@
+ID: sample-flp-mtar
+_schema-version: '2.1'
+parameters:
+    deploy_mode: html5-repo
+version: 0.0.1
+
+modules:
+    -   name: sample-portal
+        type: com.sap.portal.content
+        path: portal
+        parameters:
+            memory: 128M
+        requires:
+            -   name: sample-portal-resources
+            -   name: sample-html5-repo-host
+            -   name: sample-uaa
+resources:
+    -   name: sample-uaa
+        type: org.cloudfoundry.existing-service
+
+    -   name: sample-html5-repo-host
+        type: org.cloudfoundry.managed-service
+        parameters:
+            service-plan: app-host
+            service: html5-apps-repo
+
+    -   name: sample-portal-resources
+        type: org.cloudfoundry.managed-service
+        parameters:
+            service-plan: standard
+            service: portal
+

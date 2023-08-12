@@ -1,0 +1,18 @@
+{
+    "app-router": {
+        "cfAppName": "sample-ar",
+        "folder": "app-router",
+        "env": {
+        }
+    },
+    "sample-java": {
+        "cfAppName": "sample-java",
+        "folder": "./deps/sample-java",
+        "path": "sample-module/target",
+        "artifactName": "sample-java.war",
+        "build:cmd": "mvn clean install",
+        "start:cmd": "-Denvironment=cf -Dspring.profiles.active=provider,cloud -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n",
+        "env": {
+        }
+    }
+}

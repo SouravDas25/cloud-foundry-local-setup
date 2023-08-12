@@ -1,0 +1,17 @@
+{
+    "name": "cf-local-setup",
+    "description": "",
+    "devDependencies": {},
+    "scripts": {
+        "pull-Env": "cd scripts && node pull-env.js",
+        "start:app-router": "cd app-router && node index.js -p 9200",
+        "start:sample-java": "cd scripts && node tomcat-adapter.js sample-java"
+    },
+    "dependencies": {
+        "@sap/approuter": "^10.5.1",
+        "axios": "^0.19.2",
+        "prompt": "^1.1.0",
+        "shelljs": "^0.8.5",
+        "chalk": "^4.1.2"
+    }
+}

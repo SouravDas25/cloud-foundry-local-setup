@@ -1,0 +1,86 @@
+ID: sample-approuter-mtar
+_schema-version: '3.1'
+version: 1.0.0
+
+parameters:
+    buildpack-java: sap_java_buildpack
+    buildpack-nodejs: nodejs_buildpack
+    app-bundle: sample
+    tenantHostPattern: '^(.*)-${space}-sample-ar.${default-domain}'
+    timeout-default-seconds: 600
+
+modules:
+    -   name: sample-ar
+        type: approuter.nodejs
+        path: .
+        build-parameters:
+            builder: custom
+            commands:
+                - echo 'building'
+        parameters:
+            host: ${org}-${space}-sample-ar
+            disk-quota: 256M
+            memory: 256M
+            keep-existing-routes: true
+        requires:
+            -   name: sample-uaa
+            -   name: sample-html5-repo-runtime
+            -   name: sample-portal-resources
+            -   name: sample_java_api
+                group: destinations
+                properties:
+                    name: sample_java_api
+                    url: '~{url}'
+                    forwardAuthToken: true
+                    timeout: 600000
+        properties:
+            SESSION_TIMEOUT: 60
+            TENANT_HOST_PATTERN: '${tenantHostPattern}'
+            SAP_JWT_TRUST_ACL: '[{"clientid":"*","identityzone":"*"}]'
+
+resources:
+    -   name: sample_java_api
+        properties:
+            url: 'https://${org}-${space}-sample-java.${default-domain}'
+    -   name: sample-uaa
+        type: org.cloudfoundry.managed-service
+        parameters:
+            service: xsuaa
+            service-plan: application
+            config:
+                xsappname: ${org}-${space}-sample
+                tenant-mode: shared
+                foreign-scope-references:
+                    - $ACCEPT_GRANTED_SCOPES
+                authorities:
+                    - $ACCEPT_GRANTED_AUTHORITIES
+                    - $XSAPPNAME.sample.business.user
+                oauth2-configuration:
+                    redirect-uris:
+                        - https://*.${default-domain}/login/callback/**
+                scopes:
+                    -   name: uaa.user
+                        description: "With this scope the Portal can be called."
+                    -   name: $XSAPPNAME.Callback
+                        description: "With this scope set, the callbacks for tenant onboarding, offboarding and getDependencies can be called."
+                        grant-as-authority-to-apps:
+                            # Grant scope to LPS (plan,identity zone id,xsappname)
+                            - $XSAPPNAME(application,sap-provisioning,tenant-onboarding)
+                role-templates:
+                    -   description: "Enables users to access the report generation app UI."
+                        name: sample-app-rc
+                        scope-references:
+                            - $XSAPPNAME.Callback
+                            - uaa.user
+
+    -   name: sample-html5-repo-runtime
+        type: org.cloudfoundry.managed-service
+        parameters:
+            service-plan: app-runtime
+            service: html5-apps-repo
+
+    -   name: sample-portal-resources
+        type: org.cloudfoundry.managed-service
+        parameters:
+            service-plan: default
+            service: portal

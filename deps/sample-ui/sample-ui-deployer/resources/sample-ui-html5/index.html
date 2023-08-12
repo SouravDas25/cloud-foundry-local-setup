@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <title>App Title</title>
+    <style>
+        html, body, body > div, #container, #container-uiarea {
+            height: 100%;
+        }
+    </style>
+    <script
+            data-sap-ui-async="true"
+            data-sap-ui-compatVersion="edge"
+            data-sap-ui-frameOptions="trusted"
+            data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+            data-sap-ui-resourceroots='{
+            "sampleapp": "./"
+        }'
+            data-sap-ui-theme="sap_horizon"
+            id="sap-ui-bootstrap"
+            src="resources/sap-ui-core.js"
+    ></script>
+</head>
+<body class="sapUiBody sapUiSizeCompact" id="content">
+<div
+        data-handle-validation="true"
+        data-id="container"
+        data-name="sampleapp"
+        data-sap-ui-component
+        data-settings='{"id" : "sampleapp"}'
+></div>
+</body>
+</html>

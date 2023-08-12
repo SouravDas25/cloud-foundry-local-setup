@@ -1,0 +1,52 @@
+ID: sample-mtar
+_schema-version: '3.1'
+
+version: 1.0.0
+
+parameters:
+    buildpack-java: sap_java_buildpack
+    buildpack-nodejs: nodejs_buildpack
+    app-bundle: sample
+    custom-domain: ''
+    tenantHostPattern: '^(.*)-${space}-sample-ar${custom-domain}.${default-domain}'
+    getDependenciesURL: 'https://${org}-${space}-sample-java.${default-domain}/callback/v1.0/dependencies'
+    onSubscriptionURL: 'https://${org}-${space}-sample-java.${default-domain}/callback/v1.0/tenants/{tenantId}'
+    timeout-default-seconds: 600
+
+modules:
+    -   name: sample-java
+        type: java
+        path: .
+        build-parameters:
+            timeout: 45m30s
+            builder: custom
+            commands: # -Dmaven.test.skip=true
+                - mvn clean install -Denvironment=cf -P=cf
+            environment: cf
+            build-result: sample-module/target/*.war
+        parameters:
+            host: ${org}-${space}-sample-java
+            memory: 1G
+            buildpack: sap_java_buildpack
+            health-check-timeout: 600
+            properties:
+                JBP_CONFIG_DEBUG: '{enabled: true}'
+                JBP_CONFIG_JAVA_OPTS: "[from_environment: false, java_opts: '-Dspring.profiles.active=provider,cloud -Denvironment=cf -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n']"
+                SAP_JWT_TRUST_ACL:
+                    -   clientid: "*"
+                        identityzone: "*"
+                default_domain: ${default-domain}
+                current_space: ${space}
+        requires:
+            -   name: sample-uaa
+#            -   name: sample-db
+
+resources:
+    -   name: sample-uaa
+        type: org.cloudfoundry.existing-service
+
+#    -   name: sample-db
+#        type: org.cloudfoundry.managed-service # systempassword
+#        parameters:
+#            service: postgresql-db
+#            service-plan: trial

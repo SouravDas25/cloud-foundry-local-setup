@@ -102,3 +102,19 @@ dist
 
 # TernJS port file
 .tern-port
+
+.idea
+
+accounts-env
+
+package-lock.json
+
+deps/apache-tomcat-8.5.78
+app-router/env.token.json
+account-info.json
+env.json
+apps.json
+
+**/maven-archiver/**
+**/target/**
+**/mta_archives/**

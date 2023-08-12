@@ -1,0 +1,40 @@
+{
+    "welcomeFile": "/webapp/flpSandbox.html",
+    "authenticationMethod": "none",
+    "routes": [
+        {
+            "source": "^/resources/com/sap/sample-ui/(.*)$",
+            "target": "$1",
+            "cacheControl": "no-cache",
+            "localDir": "../deps/sample-ui/sample-ui-html5/webapp"
+        },
+        {
+            "source": "^/sap/opu/northwind/odata/(.*)$",
+            "target": "$1",
+            "authenticationType": "none",
+            "destination": "northwind-odata"
+        },
+        {
+            "source": "^/sap/opu/rest/java/(.*)$",
+            "target": "$1",
+            "authenticationType": "xsuaa",
+            "destination": "sample-java"
+        },
+        {
+            "source": "^/resources/(.*)$",
+            "target": "/resources/$1",
+            "destination": "ui5"
+        },
+        {
+            "source": "^/test-resources/(.*)$",
+            "target": "/test-resources/$1",
+            "destination": "ui5"
+        },
+        {
+            "source": "^/webapp/(.*)$",
+            "target": "$1",
+            "localDir": "./webapp",
+            "cacheControl": "no-cache"
+        }
+    ]
+}

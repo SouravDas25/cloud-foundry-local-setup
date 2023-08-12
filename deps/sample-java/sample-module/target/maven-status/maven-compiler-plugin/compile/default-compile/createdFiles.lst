@@ -1,0 +1,5 @@
+com/sap/sample/ServletInitializer.class
+com/sap/sample/SpringBootApp.class
+com/sap/sample/controller/MainController.class
+com/sap/sample/ApplicationStartOperationsHandler.class
+com/sap/sample/config/WebSecurityConfig.class

@@ -1,0 +1,16 @@
+[
+    {
+        "name": "ui5",
+        "url": "https://ui5.sap.com"
+    },
+    {
+        "name": "sample-java",
+        "url": "http://localhost:8080/sample-java",
+        "forwardAuthToken": true,
+        "timeout": 6000000
+    },
+    {
+        "name": "northwind-odata",
+        "url": "https://services.odata.org/V4/Northwind/Northwind.svc"
+    }
+]

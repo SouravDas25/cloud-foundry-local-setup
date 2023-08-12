@@ -1,0 +1,19 @@
+{
+    "welcomeFile": "/cp.portal",
+    "authenticationMethod": "route",
+    "routes": [
+        {
+            "source": "^/sap/opu/rest/java/(.*)$",
+            "target": "$1",
+            "csrfProtection": false,
+            "authenticationType": "xsuaa",
+            "destination": "sample_java_api"
+        },
+        {
+            "source": "^(.*)$",
+            "target": "$1",
+            "service": "html5-apps-repo-rt",
+            "authenticationType": "xsuaa"
+        }
+    ]
+}

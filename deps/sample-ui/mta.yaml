@@ -1,0 +1,35 @@
+ID: html5.repo.deployer.sampleui
+_schema-version: '3.1'
+version: 1.0.0
+
+modules:
+    -   name: sample-ui-html5
+        type: html5
+        path: sample-ui-html5
+        build-parameters:
+            builder: custom
+            commands:
+                - npm install
+                - grunt -f
+            supported-platforms: [ ]
+            build-result: dist
+
+    -   name: sample-ui-deployer
+        type: com.sap.html5.application-content
+        path: sample-ui-deployer
+        requires:
+            -   name: sample-html5-repo-host
+        build-parameters:
+            requires:
+                -   name: sample-ui-html5
+                    artifacts:
+                        - './*'
+                    target-path: resources/sample-ui-html5
+resources:
+    -   name: sample-html5-repo-host
+        parameters:
+            service-plan: app-host
+            service: html5-apps-repo
+            config:
+                sizeLimit: 8
+        type: org.cloudfoundry.managed-service

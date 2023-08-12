@@ -1,0 +1,4 @@
+---
+applications:
+    -   name: sample-java
+        path: sample-module/target/sample-java.war

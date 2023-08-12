@@ -1,0 +1,8 @@
+{
+    "sampleorg-samplespace": {
+        "org": "sampleorg",
+        "space": "samplespace",
+        "apiEndpoint": "https://api.cf.hana.ondemand.com",
+        "subdomain": "sampleorg"
+    }
+}
