@@ -201,14 +201,8 @@ module.exports = {
         }
     },
 
-    cfLogin: async function (endPoint, org, space, username = null, password = null) {
-
-        if (username === null) {
-            username = defaultUser.username;
-            password = defaultUser.password;
-        }
-
-        const command = `cf login -a ${endPoint} -u ${username} -p ${password} -o ${org} -s ${space}`
+    cfLogin: async function (endPoint, org, space) {
+        const command = `cf login -a ${endPoint} -o ${org} -s ${space} --sso`
         return await this.execute(command);
     },
 
