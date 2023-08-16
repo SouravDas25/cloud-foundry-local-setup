@@ -136,7 +136,6 @@ async function saveCfEnvironment(org, space, spaceGuid, apiEndpoint, bearerToken
 
 async function main() {
 
-    console.log(`cf login -a ${utility.getCurrentActiveAccount().apiEndpoint} -o ${utility.getCurrentActiveAccount().org} -s ${utility.getCurrentActiveAccount().space} --sso`)
     const co = await utility.cfLogin(utility.getCurrentActiveAccount().apiEndpoint,
         utility.getCurrentActiveAccount().org,
         utility.getCurrentActiveAccount().space);
@@ -150,7 +149,7 @@ async function main() {
     if (!(/[B|b]earer[\s]+(.*)/g.test(bearerToken))) {
         throw new Error("Invalid bearer token");
     }
-    let targetOutput = await utility.execute(`cf target`);
+    // let targetOutput = await utility.execute(`cf target`);
 
     let org = utility.getCurrentActiveAccount().org;
     let space = utility.getCurrentActiveAccount().space;

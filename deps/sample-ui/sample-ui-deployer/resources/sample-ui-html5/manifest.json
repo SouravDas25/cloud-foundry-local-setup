@@ -1,7 +1,7 @@
 {
     "_version": "1.49.0",
     "sap.app": {
-        "id": "sampleapp",
+        "id": "com.sample.app",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -14,6 +14,18 @@
             "id": "@sap/generator-fiori:fpm",
             "version": "1.10.4",
             "toolsId": "ed31c6a7-24f0-44be-9a69-c11d4128431d"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "Sample",
+                    "action": "display"
+                }
+            }
         },
         "dataSources": {
             "mainService": {
@@ -71,7 +83,7 @@
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleName": "sampleapp.i18n.i18n"
+                    "bundleName": "com.sample.app.i18n.i18n"
                 }
             },
             "": {
@@ -110,7 +122,7 @@
                         "settings": {
                             "navigation": {},
                             "contextPath": "/Products",
-                            "viewName": "sampleapp.ext.main.Main"
+                            "viewName": "com.sample.app.ext.main.Main"
                         }
                     }
                 }

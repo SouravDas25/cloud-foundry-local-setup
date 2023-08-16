@@ -12,6 +12,12 @@ modules:
             memory: 128M
         requires:
             -   name: sample-portal-resources
+                parameters:
+                    service-key:
+                        name: content-deploy-key
+                        config:
+                            content-endpoint: developer
+                    content-target: true
             -   name: sample-html5-repo-host
             -   name: sample-uaa
 resources:
@@ -19,10 +25,7 @@ resources:
         type: org.cloudfoundry.existing-service
 
     -   name: sample-html5-repo-host
-        type: org.cloudfoundry.managed-service
-        parameters:
-            service-plan: app-host
-            service: html5-apps-repo
+        type: org.cloudfoundry.existing-service
 
     -   name: sample-portal-resources
         type: org.cloudfoundry.managed-service

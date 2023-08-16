@@ -118,3 +118,5 @@ apps.json
 **/maven-archiver/**
 **/target/**
 **/mta_archives/**
+
+env.json

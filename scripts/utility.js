@@ -7,6 +7,7 @@ const shell = require('shelljs');
 const env = require('./../env.json');
 const appInfo = require("./../apps.json")
 const https = require("https");
+const prompt = require("prompt");
 const defaultUser = env.defaultUser;
 
 const authTypes = {
@@ -25,25 +26,23 @@ module.exports = {
             cmd = split[0]
             args = split.slice(1);
         }
-        console.info("executing: ", cmd, args);
+        // console.info("executing: ", cmd, args);
         return new Promise((resolve, reject) => {
-
-            const cmdProcess = spawn(cmd, args, {shell: true});
+            const cmdProcess = spawn(cmd, args, {shell: true, stdio: 'inherit', stdout: 'inherit'});
             let output = "";
             let that = this;
             that.resolve = resolve;
 
-            cmdProcess.stdout.on("data", data => {
-                output += `${data}`;
-            });
+            // cmdProcess.stdout.on("data", data => {
+            //     output += `${data}`;
+            // });
 
-            if (printOutput) {
-                cmdProcess.stdout.pipe(process.stdout);
-            }
-
+            // if (printOutput) {
+            //     cmdProcess.stdout.pipe(process.stdout);
+            // }
 
             cmdProcess.on("close", code => {
-                that.resolve(output);
+                that.resolve({code: code, stdout: output});
             });
         });
     },
@@ -202,8 +201,9 @@ module.exports = {
     },
 
     cfLogin: async function (endPoint, org, space) {
+        console.log(`cf login -a ${endPoint} -o ${org} -s ${space} --sso`)
         const command = `cf login -a ${endPoint} -o ${org} -s ${space} --sso`
-        return await this.execute(command);
+        return await this.customShell(command);
     },
 
     toHeaders: function (auth) {

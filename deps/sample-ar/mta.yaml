@@ -33,6 +33,11 @@ modules:
                     url: '~{url}'
                     forwardAuthToken: true
                     timeout: 600000
+            -   name: northwind-odata
+                group: destinations
+                properties:
+                    name: northwind-odata
+                    url: '~{url}'
         properties:
             SESSION_TIMEOUT: 60
             TENANT_HOST_PATTERN: '${tenantHostPattern}'
@@ -42,6 +47,9 @@ resources:
     -   name: sample_java_api
         properties:
             url: 'https://${org}-${space}-sample-java.${default-domain}'
+    -   name: northwind-odata
+        properties:
+            url: 'https://services.odata.org/V4/Northwind/Northwind.svc'
     -   name: sample-uaa
         type: org.cloudfoundry.managed-service
         parameters:
@@ -82,5 +90,5 @@ resources:
     -   name: sample-portal-resources
         type: org.cloudfoundry.managed-service
         parameters:
-            service-plan: default
+            service-plan: standard
             service: portal

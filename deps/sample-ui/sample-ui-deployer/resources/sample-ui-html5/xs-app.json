@@ -6,6 +6,12 @@
     },
     "routes": [
         {
+            "source": "^/sap/opu/northwind/odata/(.*)$",
+            "target": "$1",
+            "authenticationType": "none",
+            "destination": "northwind-odata"
+        },
+        {
             "source": "^(.*)$",
             "target": "$1",
             "service": "html5-apps-repo-rt",

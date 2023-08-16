@@ -3,7 +3,8 @@
     "description": "",
     "devDependencies": {},
     "scripts": {
-        "pull-Env": "cd scripts && node pull-env.js",
+        "cf-login": "cd scripts && node cf-login.js",
+        "pull-env": "cd scripts && node pull-env.js",
         "start:app-router": "cd app-router && node index.js -p 9200",
         "start:sample-java": "cd scripts && node tomcat-adapter.js sample-java"
     },

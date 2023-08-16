@@ -106,6 +106,7 @@ module.exports = {
     fetchXsuaaTokenWithPassword: async function () {
         prompt.start();
         let result = await prompt.get(properties);
+        prompt.stop();
         const request = this.prepareRequest();
         request.body.grant_type = "password";
         request.body.username = result.username.trim();

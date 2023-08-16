@@ -19,6 +19,8 @@ modules:
         path: sample-ui-deployer
         requires:
             -   name: sample-html5-repo-host
+                parameters:
+                    content-target: true
         build-parameters:
             requires:
                 -   name: sample-ui-html5

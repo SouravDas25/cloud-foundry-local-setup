@@ -31,9 +31,9 @@
                 "payload": {
                     "viz": [
                         {
-                            "id": "sampleapp",
-                            "appId": "sampleapp",
-                            "vizId": "Sample-App"
+                            "id": "com.sample.app-0-1692166351857",
+                            "appId": "com.sample.app",
+                            "vizId": "Sample-display"
                         }
                     ]
                 }
