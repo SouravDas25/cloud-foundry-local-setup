@@ -201,8 +201,8 @@ module.exports = {
     },
 
     cfLogin: async function (endPoint, org, space) {
-        console.log(`cf login -a ${endPoint} -o ${org} -s ${space} --sso`)
-        const command = `cf login -a ${endPoint} -o ${org} -s ${space} --sso`
+        console.log(`cf login -o ${org} -s ${space} --sso -a ${endPoint}`)
+        const command = `cf login -o ${org} -s ${space} --sso -a ${endPoint}`
         return await this.customShell(command);
     },
 

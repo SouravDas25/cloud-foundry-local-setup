@@ -87,7 +87,7 @@ resources:
             service-plan: app-runtime
             service: html5-apps-repo
 
-    -   name: sample-portal-resources
+    -   name: sample-portal-resources # trial account does not have portal service
         type: org.cloudfoundry.managed-service
         parameters:
             service-plan: standard

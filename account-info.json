@@ -1,5 +1,5 @@
 {
-    "sampleorg-samplespace": {
+    "default-account": {
         "org": "sampleorg",
         "space": "samplespace",
         "apiEndpoint": "https://api.cf.hana.ondemand.com",

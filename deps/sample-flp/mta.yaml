@@ -27,7 +27,7 @@ resources:
     -   name: sample-html5-repo-host
         type: org.cloudfoundry.existing-service
 
-    -   name: sample-portal-resources
+    -   name: sample-portal-resources # trial account does not have portal service
         type: org.cloudfoundry.managed-service
         parameters:
             service-plan: standard
