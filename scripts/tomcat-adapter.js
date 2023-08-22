@@ -14,18 +14,18 @@ async function main() {
     if (MAVEN_HOME == null || MAVEN_HOME.trim().length <= 0) {
         throw Error("Maven Home not found.");
     }
-    console.log("Maven Home ", MAVEN_HOME);
+    console.log("==> Maven Home ", MAVEN_HOME);
 
     // get application name from cmdline
     const appName = process.argv[2];
-    console.log("App Name:", appName);
+    console.log("==> App Name:", appName);
 
     // get application build info from apps.json
     const appInfo = utility.getAppInfo(appName);
     if (!path.isAbsolute(appInfo.folder)) {
         appInfo.folder = path.join(ROOTDIR, appInfo.folder);
     }
-    console.log(appInfo);
+    console.log(`==> App Properties`, appInfo);
 
     // check if application code is present
     if (!utility.pathExists(appInfo.folder)) {
@@ -33,14 +33,14 @@ async function main() {
     }
 
     // run application build command
-    console.log(`Building App - `, chalk.blue(appInfo["build:cmd"]));
+    console.log(`==> Building App - `, chalk.blue(appInfo["build:cmd"]));
     await process.chdir(appInfo.folder);
     await utility.execute(appInfo["build:cmd"]);
 
     // application start command
     const JVM_ARGS = appInfo["start:cmd"];
 
-    console.log(`setting vcap variables for ${ORG} - ${SPACE}`);
+    console.log(`==> setting vcap variables for ${ORG} - ${SPACE}`);
 
     // set vcap & java start options
     vcapServicesContent = utility.getVcapVariables(ORG, SPACE, appName);
@@ -63,7 +63,7 @@ async function main() {
     if (!utility.pathExists(warPath)) {
         throw Error("War file not found.");
     }
-    console.log("using war file from ", warPath);
+    console.log("==> using war file from ", warPath);
 
     // remove previous war !important
     utility.removeFile(path.join(tomcatPath, 'webapps', artifactName));
@@ -73,8 +73,10 @@ async function main() {
     // start tomcat
     await process.chdir(path.join(tomcatPath, 'bin'));
     if (utility.isWindowsSystem()) {
+        console.log("==> catalina.bat run");
         await utility.execute("catalina.bat run");
     } else {
+        console.log("==> sh catalina.sh run");
         await utility.execute("sh catalina.sh run");
     }
 }

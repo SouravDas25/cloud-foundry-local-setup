@@ -28,13 +28,13 @@ const properties = [
         validator: /^[a-zA-Z0-9@\._\s\-]+$/,
         description: "Email or UserId",
         warning: 'Username must be only email or i-number',
-        default: ENV.defaultUser.email
+        default: ""
     },
     {
         name: 'password',
         description: "password",
         hidden: true,
-        default: ENV.defaultUser.password
+        default: ""
     }
 ];
 

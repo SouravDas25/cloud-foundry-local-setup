@@ -114,11 +114,14 @@ async function createDirectories(org, space) {
 
 async function saveCfEnvironment(org, space, spaceGuid, apiEndpoint, bearerToken, appname) {
 
+    console.log(`==> fetching cf app ${appname} --guid`);
     let appGuid = await getAppGuid(appname, spaceGuid, apiEndpoint, bearerToken);
     if (appGuid == null) {
         console.log("CF API calls failed for ", appname);
         return;
     }
+
+    console.log(`==> downloading cf env ${appname}`);
     let vcap = await getVcapVariables(appGuid, apiEndpoint, bearerToken);
     if (vcap.VCAP_SERVICES == null || vcap.VCAP_APPLICATION == null) {
         console.log("CF API calls failed for ", appname);
@@ -127,7 +130,7 @@ async function saveCfEnvironment(org, space, spaceGuid, apiEndpoint, bearerToken
 
     await createDirectories(org, space);
 
-    console.log("writing ", appname, " to environment files.");
+    console.log(`==> persisting ${appname} environment.`);
 
     await fs.writeFileSync(path.normalize(`./../accounts-env/${org}/${space}/${appname}-vcap.json`), JSON.stringify(vcap.VCAP_SERVICES, null, 4), 'utf-8');
     await fs.writeFileSync(path.normalize(`./../accounts-env/${org}/${space}/${appname}-vcap-application.json`), JSON.stringify(vcap.VCAP_APPLICATION, null, 4), 'utf-8');
@@ -136,35 +139,36 @@ async function saveCfEnvironment(org, space, spaceGuid, apiEndpoint, bearerToken
 
 async function main() {
 
-    const co = await utility.cfLogin(utility.getCurrentActiveAccount().apiEndpoint,
-        utility.getCurrentActiveAccount().org,
-        utility.getCurrentActiveAccount().space);
+    // const co = await utility.cfLogin(utility.getCurrentActiveAccount().apiEndpoint,
+    //     utility.getCurrentActiveAccount().org,
+    //     utility.getCurrentActiveAccount().space);
+    //
+    // if (co.code !== 0) {
+    //     throw new Error("Cf Login Failed");
+    // }
 
-    if (co.code !== 0) {
-        throw new Error("Cf Login Failed");
-    }
-
+    console.log("==> getting cf oauth-token");
     let bearerToken = await utility.execute(`cf oauth-token`);
     bearerToken = bearerToken.replace(/\r?\n|\r/g, " ");
     if (!(/[B|b]earer[\s]+(.*)/g.test(bearerToken))) {
         throw new Error("Invalid bearer token");
     }
     // let targetOutput = await utility.execute(`cf target`);
-
     let org = utility.getCurrentActiveAccount().org;
     let space = utility.getCurrentActiveAccount().space;
     let apiEndpoint = utility.getCurrentActiveAccount().apiEndpoint;
 
+    console.log("==> Org", org);
+    console.log("==> Space", space);
 
+    console.log(`==> fetching cf org ${org} --guid`);
     let orgGuid = await getOrgGuid(org, apiEndpoint, bearerToken);
+    console.log(`==> fetching cf space ${space} --guid`);
     let spaceGuid = await getSpaceGuid(space, orgGuid, apiEndpoint, bearerToken);
 
     if (spaceGuid == null) {
         throw new Error("CF API calls failed");
     }
-
-    console.log("Org", org);
-    console.log("Space", space);
 
     await createDirectories(org, space);
 
@@ -183,8 +187,9 @@ async function main() {
     account.org = org;
     account.space = space;
     account.apiEndpoint = apiEndpoint;
+    account.subdomain = org;
 
-    console.log("writing to account-info files.");
+    console.log("==> updating account-info file.");
 
     await fs.writeFileSync(`./../account-info.json`, JSON.stringify(accountInfo, null, 4), 'utf-8');
 }
