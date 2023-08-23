@@ -38,7 +38,7 @@ async function main() {
     await utility.execute(appInfo["build:cmd"]);
 
     // application start command
-    const JVM_ARGS = appInfo["start:cmd"];
+    const MVN_RUN_CMD = appInfo["start:cmd"];
 
     console.log(`==> setting vcap variables for ${ORG} - ${SPACE}`);
 
@@ -47,38 +47,17 @@ async function main() {
     vcapAppContent = utility.getVcapApplication(ORG, SPACE, appInfo.cfAppName);
     process.env['VCAP_SERVICES'] = JSON.stringify(vcapServicesContent);
     process.env['VCAP_APPLICATION'] = JSON.stringify(vcapAppContent);
-    process.env['JAVA_OPTS'] = JVM_ARGS;
+    // process.env['JAVA_OPTS'] = JVM_ARGS;
 
     // setting other env variables
     for (const envVar in appInfo.env) {
         process.env[envVar] = appInfo.env[envVar];
     }
 
-    // war name
-    const artifactName = appInfo.artifactName;
+    let startFolder = path.join(appInfo.folder, appInfo.path);
 
-    let warPath = path.join(appInfo.folder, appInfo.path, artifactName);
-    let tomcatPath = path.join(ROOTDIR, 'deps', 'apache-tomcat-8.5.78');
-    // check if war exists
-    if (!utility.pathExists(warPath)) {
-        throw Error("War file not found.");
-    }
-    console.log("==> using war file from ", warPath);
-
-    // remove previous war !important
-    utility.removeFile(path.join(tomcatPath, 'webapps', artifactName));
-    // copy new war to tomcat webapps
-    utility.copyFileSync(warPath, path.join(tomcatPath, 'webapps', artifactName))
-
-    // start tomcat
-    await process.chdir(path.join(tomcatPath, 'bin'));
-    if (utility.isWindowsSystem()) {
-        console.log("==> catalina.bat run");
-        await utility.execute("catalina.bat run");
-    } else {
-        console.log("==> sh catalina.sh run");
-        await utility.execute("sh catalina.sh run");
-    }
+    await process.chdir(startFolder);
+    await utility.execute(MVN_RUN_CMD);
 }
 
 
