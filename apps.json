@@ -14,5 +14,14 @@
         "start:cmd": "-Denvironment=cf -Dspring.profiles.active=provider,cloud -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n",
         "env": {
         }
+    },
+    "sample-java-maven": {
+        "cfAppName": "sample-java",
+        "folder": "./deps/sample-java",
+        "path": "sample-module",
+        "build:cmd": "mvn clean install",
+        "start:cmd": "mvn spring-boot:run",
+        "env": {
+        }
     }
 }

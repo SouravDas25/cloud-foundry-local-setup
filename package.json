@@ -6,7 +6,8 @@
         "cf-login": "cd scripts && node cf-login.js",
         "pull-env": "cd scripts && node pull-env.js",
         "start:app-router": "cd app-router && node index.js -p 9200",
-        "start:sample-java": "cd scripts && node tomcat-adapter.js sample-java"
+        "start:sample-java": "cd scripts && node tomcat-adapter.js sample-java",
+        "start:sample-java-maven": "cd scripts && node maven-adapter.js sample-java-maven"
     },
     "dependencies": {
         "@sap/approuter": "^10.5.1",
